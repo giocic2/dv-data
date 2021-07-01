@@ -22,6 +22,10 @@ with os.scandir(path='.') as directoryScan:
                 offsetPositions += 1
                 
 offsetAxis = np.linspace(start = 0, stop = (offsetPositions-1) * offsetStep, num = offsetPositions)
+
+TXf_FREQ = 24e9 # Hz
+wavelength = 3e8 / 24e9
+print('Wavelength: ' + str(wavelength * 1e3) + ' mm')
             
 print('Number of different cone positions: ' + str(offsetPositions))
 
@@ -38,6 +42,9 @@ FFTpeaks = np.ndarray((2, offsetPositions)) # First row for ChA (IFI), second ro
 
 currentCycle = 0
 
+CONE_FREQUENCY = 100 # Hz
+ARGMAX_RANGE = 100 # bins
+
 for entry in filenames:
     if 'ChA' in entry:
         rawSamples = np.genfromtxt(entry, delimiter = ',')
@@ -49,12 +56,10 @@ for entry in filenames:
         FFT_dBV = 20*np.log10(FFT_mV/1000)
         freqAxis = np.fft.rfftfreq(FFT_FREQ_BINS) # freqBins/2+1
         freqAxis_Hz = freqAxis * SAMPLING_FREQUENCY
-        centerFrequency = 100
-        argmax_range = 100
-        argmax_startBin = int(round((FFT_FREQ_BINS / (SAMPLING_FREQUENCY) * centerFrequency) - argmax_range / 2))
-        argmax_endBin = int(round((FFT_FREQ_BINS / (SAMPLING_FREQUENCY) * centerFrequency) + argmax_range / 2))
+        argmax_startBin = int(round((FFT_FREQ_BINS / (SAMPLING_FREQUENCY) * CONE_FREQUENCY) - ARGMAX_RANGE / 2))
+        argmax_endBin = int(round((FFT_FREQ_BINS / (SAMPLING_FREQUENCY) * CONE_FREQUENCY) + ARGMAX_RANGE / 2))
         FFTpeaks[0, currentCycle] = np.amax(FFT_dBV[argmax_startBin:argmax_endBin])
-        print("{0:.0f} dBV".format(FFTpeaks[0, currentCycle]))
+        print("{0:.0f}".format(FFTpeaks[0, currentCycle]), end = ' ')
     if 'ChB' in entry:
         rawSamples = np.genfromtxt(entry, delimiter = ',')
         voltageAxis_mV = rawSamples[:,0]
@@ -65,12 +70,10 @@ for entry in filenames:
         FFT_dBV = 20*np.log10(FFT_mV/1000)
         freqAxis = np.fft.rfftfreq(FFT_FREQ_BINS) # freqBins/2+1
         freqAxis_Hz = freqAxis * SAMPLING_FREQUENCY
-        centerFrequency = 100
-        argmax_range = 100
-        argmax_startBin = int(round((FFT_FREQ_BINS / (SAMPLING_FREQUENCY) * centerFrequency) - argmax_range / 2))
-        argmax_endBin = int(round((FFT_FREQ_BINS / (SAMPLING_FREQUENCY) * centerFrequency) + argmax_range / 2))
+        argmax_startBin = int(round((FFT_FREQ_BINS / (SAMPLING_FREQUENCY) * CONE_FREQUENCY) - ARGMAX_RANGE / 2))
+        argmax_endBin = int(round((FFT_FREQ_BINS / (SAMPLING_FREQUENCY) * CONE_FREQUENCY) + ARGMAX_RANGE / 2))
         FFTpeaks[1, currentCycle] = np.amax(FFT_dBV[argmax_startBin:argmax_endBin])
-        print("{0:.0f} dBV".format(FFTpeaks[1, currentCycle]))
+        print("{0:.0f}".format(FFTpeaks[1, currentCycle]), end = ' ')
         currentCycle += 1
 
 # IFI and IFQ plots
