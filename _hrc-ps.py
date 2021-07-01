@@ -384,7 +384,7 @@ while VCOfreq <= 24500:
     # range = PS2000A_2V = 7
     # ranges (1:10): 20m, 50m, 100m, 200m, 500m, 1, 2, 5, 10, 20 
     # analogue offset = -2 V = -2
-    chARange = 5
+    chARange = 4
     status["setChA"] = ps.ps2000aSetChannel(chandle, 0, 1, 0, chARange, 0)
     assert_pico_ok(status["setChA"])
     # Set up channel B
