@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 filenames = []
 offsetPositions = 0
-offsetStep = 2 # mm
+offsetStep = 1 # mm
 currentCycle = 0
 
 print('List of *.csv files in the current directory: ')
