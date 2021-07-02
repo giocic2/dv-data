@@ -39,26 +39,6 @@ plt.xlabel('Frequency (Hz)')
 plt.grid(True)
 plt.show()
 
-### DFT single frequency
-##DFT_START_FREQ = 99 # Hz
-##DFT_END_FREQ = 101 # Hz
-##DFT_POINTS = 101
-##DFT_RESOLUTION_FREQ = (DFT_END_FREQ - DFT_START_FREQ) / (DFT_POINTS - 1)
-##print('DFT resolution: ' + str(DFT_RESOLUTION_FREQ) + ' Hz')
-##DFT_freqAxis_Hz = np.linspace(DFT_START_FREQ, DFT_END_FREQ, DFT_POINTS)
-##DFT_mV = []
-##for k in range(DFT_POINTS):
-##    DFT_mV.append(np.abs(sum(voltageAxis_mV[:] * np.exp(-2j * pi * (DFT_START_FREQ + k * DFT_RESOLUTION_FREQ) / SAMPLING_FREQUENCY) * 2 / totalSamples)))
-##    DFT_dBV = []
-##for element in DFT_mV:
-##    DFT_dBV.append(20*np.log10(element / 1000))
-### Plot FFT
-##plt.plot(DFT_freqAxis_Hz, DFT_dBV)
-##plt.ylabel('Spectrum magnitude (dBV)')
-##plt.xlabel('Frequency (Hz)')
-##plt.grid(True)
-##plt.show()
-
 # Spectrogram computation
 f, t, Sxx = signal.spectrogram(voltageAxis_mV, fs = SAMPLING_FREQUENCY, nperseg = 2**10, nfft = 2**11, scaling = 'spectrum')
 plt.pcolormesh(t, f, Sxx, shading='gouraud')

@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 filenames = []
 offsetPositions = 0
-offsetStep = 1 # mm
+offsetStep = 2 # mm
 currentCycle = 0
 
 print('List of *.csv files in the current directory: ')
@@ -79,7 +79,7 @@ for entry in filenames:
 # IFI and IFQ plots
 plt.plot(offsetAxis, FFTpeaks[0, :], label = 'IFI magnitude @100Hz [dBV]')
 plt.plot(offsetAxis, FFTpeaks[1, :], label = 'IFQ magnitude @100Hz [dBV]')
-plt.xlabel('Target offset [mm]')
+plt.xlabel('Target position [mm]')
 plt.legend()
 plt.grid(True)
 plt.show()
