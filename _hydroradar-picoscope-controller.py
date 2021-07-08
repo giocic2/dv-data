@@ -200,10 +200,10 @@ MSB = 0b00000000
 # bit1: Test bit, must be lOW (0)
 # bit0: Analog multiplexer control bit "AMUX1" (0)
 
-LSB = 0b00001000 # TX full power
+# LSB = 0b00001000 # TX full power
 # LSB = 0b00001101 # TX power reduced of 4dB
 # LSB = 0b00001110 # TX power reduced of 6dB
-# LSB = 0b00001111 # TX power reduced of 9dB
+LSB = 0b00001111 # TX power reduced of 9dB
 
 # bit7: Analog multiplexer control bit "AMUX0" (0)
 # bit6: Active-low 64k divider (ON)
@@ -407,7 +407,7 @@ while VCOfreq <= 24500:
     # direction = PS2000A_RISING = 2
     # delay = 0 sample periods
     # auto Trigger = 1000 ms (if no trigger events occurs)
-    status["trigger"] = ps.ps2000aSetSimpleTrigger(chandle, 1, 0, 0, 2, 100000, 5000)
+    status["trigger"] = ps.ps2000aSetSimpleTrigger(chandle, 1, 0, 0, 2, 1000000, 5000)
     assert_pico_ok(status["trigger"])
     # Set number of pre and post trigger samples to be collected
     preTriggerSamples = round(totalSamples/2)
