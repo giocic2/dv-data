@@ -200,10 +200,10 @@ MSB = 0b00000000
 # bit1: Test bit, must be lOW (0)
 # bit0: Analog multiplexer control bit "AMUX1" (0)
 
-# LSB = 0b00001000 # TX full power
+LSB = 0b00001000 # TX full power
 # LSB = 0b00001101 # TX power reduced of 4dB
 # LSB = 0b00001110 # TX power reduced of 6dB
-LSB = 0b00001111 # TX power reduced of 9dB
+# LSB = 0b00001111 # TX power reduced of 9dB
 
 # bit7: Analog multiplexer control bit "AMUX0" (0)
 # bit6: Active-low 64k divider (ON)
