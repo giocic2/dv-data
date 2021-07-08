@@ -23,7 +23,7 @@ plt.grid(True)
 plt.show()
 
 FFT_FREQ_BINS = 2**19 
-SAMPLING_FREQUENCY = 100e3 # Check radar script
+SAMPLING_FREQUENCY = 10e3 # Check radar script
 
 # FFT computation
 FFT = np.fft.rfft(voltageAxis_mV, n = FFT_FREQ_BINS) # FFT of real signal
