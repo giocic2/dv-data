@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 filenames = []
 voltageOffsets = 0 # initialization, evalued automatically
 offsetStep = 0.1 # V
-startStep = - 10 # V
-stopStep = 13 + 1 # V (the last one is not included by np.arange)
+startStep = - 10 # steps
+stopStep = 10 + 1 # steps (the last one is not included by np.arange)
 currentCycle = 0
 
 print('List of *.csv files in the current directory: ')
