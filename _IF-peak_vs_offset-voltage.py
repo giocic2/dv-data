@@ -6,7 +6,8 @@ filenames = []
 voltageOffsets = 0 # initialization, evalued automatically
 offsetStep = 0.1 # V
 startStep = - 10 # steps
-stopStep = 10 + 1 # steps (the last one is not included by np.arange)
+stopStep = 10 # steps (the last one is not included by np.arange)
+stopStep += 1 # the last step is not included by np.arange
 currentCycle = 0
 
 print('List of *.csv files in the current directory: ')
@@ -60,7 +61,7 @@ for entry in filenames:
         freqAxis_Hz = freqAxis * SAMPLING_FREQUENCY
         argmax_startBin = int(round((FFT_FREQ_BINS / (SAMPLING_FREQUENCY) * CONE_FREQUENCY) - ARGMAX_RANGE / 2))
         argmax_endBin = int(round((FFT_FREQ_BINS / (SAMPLING_FREQUENCY) * CONE_FREQUENCY) + ARGMAX_RANGE / 2))
-        FFTpeaks[0, currentCycle] = np.amax(FFT_dBV[argmax_startBin:argmax_endBin])
+        FFTpeaks[0, currentCycle] = np.amax(FFT_mV[argmax_startBin:argmax_endBin])
         print("{0:.0f}".format(FFTpeaks[0, currentCycle]), end = ' ')
     if 'ChB' in entry:
         rawSamples = np.genfromtxt(entry, delimiter = ',')
@@ -74,13 +75,13 @@ for entry in filenames:
         freqAxis_Hz = freqAxis * SAMPLING_FREQUENCY
         argmax_startBin = int(round((FFT_FREQ_BINS / (SAMPLING_FREQUENCY) * CONE_FREQUENCY) - ARGMAX_RANGE / 2))
         argmax_endBin = int(round((FFT_FREQ_BINS / (SAMPLING_FREQUENCY) * CONE_FREQUENCY) + ARGMAX_RANGE / 2))
-        FFTpeaks[1, currentCycle] = np.amax(FFT_dBV[argmax_startBin:argmax_endBin])
+        FFTpeaks[1, currentCycle] = np.amax(FFT_mV[argmax_startBin:argmax_endBin])
         print("{0:.0f}".format(FFTpeaks[1, currentCycle]), end = ' ')
         currentCycle += 1
 
 # IFI and IFQ plots
-plt.plot(offsetAxis, FFTpeaks[0, :], label = 'IFI magnitude @35Hz [dBV]')
-plt.plot(offsetAxis, FFTpeaks[1, :], label = 'IFQ magnitude @35Hz [dBV]')
+plt.plot(offsetAxis, FFTpeaks[0, :], label = 'IFI magnitude @35Hz [mV]')
+plt.plot(offsetAxis, FFTpeaks[1, :], label = 'IFQ magnitude @35Hz [mV]')
 plt.xlabel('Offset voltage [V]')
 plt.legend()
 plt.grid(True)
