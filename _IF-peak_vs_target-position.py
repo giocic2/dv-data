@@ -3,28 +3,28 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 filenames = []
-offsetPositions = 21
-offsetStep = 0.5 # mm
+offsetPositions = 0 # Initialization
+OFFSET_STEP = 0.5 # mm
 currentCycle = 0
 
 print('List of *.csv files in the current directory: ')
 with os.scandir(path='.') as directoryScan:
     for entry in directoryScan:
-            if entry.name.endswith('.csv') and entry.is_file():
-                print(entry.name)
+        if entry.name.endswith('.csv') and entry.is_file():
+            print(entry.name)
                 
 with os.scandir(path='.') as directoryScan:
     for entry in directoryScan:
-            if entry.name.endswith('.csv') and entry.is_file():
-                filenames.append(entry.name)
-                print(entry.name)
-            if 'ChA' in entry.name:
-                offsetPositions += 1
+        if entry.name.endswith('.csv') and entry.is_file():
+            filenames.append(entry.name)
+            print(entry.name)
+        if 'ChA' in entry.name:
+            offsetPositions += 1
                 
-offsetAxis = np.linspace(start = 0, stop = (offsetPositions-1) * offsetStep, num = offsetPositions)
+offsetAxis = np.linspace(start = 0, stop = (offsetPositions-1) * OFFSET_STEP, num = offsetPositions)
 
 TX_FREQ = 24e9 # Hz
-wavelength = 3e8 / TX_freq
+wavelength = 3e8 / TX_FREQ
 print('Wavelength: ' + str(wavelength * 1e3) + ' mm')
             
 print('Number of different cone positions: ' + str(offsetPositions))
@@ -58,7 +58,7 @@ for entry in filenames:
         freqAxis_Hz = freqAxis * SAMPLING_FREQUENCY
         argmax_startBin = int(round((FFT_FREQ_BINS / (SAMPLING_FREQUENCY) * CONE_FREQUENCY) - ARGMAX_RANGE / 2))
         argmax_endBin = int(round((FFT_FREQ_BINS / (SAMPLING_FREQUENCY) * CONE_FREQUENCY) + ARGMAX_RANGE / 2))
-        FFTpeaks[0, currentCycle] = np.amax(FFT_dBV[argmax_startBin:argmax_endBin])
+        FFTpeaks[0, currentCycle] = np.amax(FFT_mV[argmax_startBin:argmax_endBin])
         print("{0:.0f}".format(FFTpeaks[0, currentCycle]), end = ' ')
     if 'ChB' in entry:
         rawSamples = np.genfromtxt(entry, delimiter = ',')
@@ -72,13 +72,13 @@ for entry in filenames:
         freqAxis_Hz = freqAxis * SAMPLING_FREQUENCY
         argmax_startBin = int(round((FFT_FREQ_BINS / (SAMPLING_FREQUENCY) * CONE_FREQUENCY) - ARGMAX_RANGE / 2))
         argmax_endBin = int(round((FFT_FREQ_BINS / (SAMPLING_FREQUENCY) * CONE_FREQUENCY) + ARGMAX_RANGE / 2))
-        FFTpeaks[1, currentCycle] = np.amax(FFT_dBV[argmax_startBin:argmax_endBin])
+        FFTpeaks[1, currentCycle] = np.amax(FFT_mV[argmax_startBin:argmax_endBin])
         print("{0:.0f}".format(FFTpeaks[1, currentCycle]), end = ' ')
         currentCycle += 1
 
 # IFI and IFQ plots
-plt.plot(offsetAxis, FFTpeaks[0, :], label = 'IFI magnitude @137Hz [dBV]')
-plt.plot(offsetAxis, FFTpeaks[1, :], label = 'IFQ magnitude @137Hz [dBV]')
+plt.plot(offsetAxis, FFTpeaks[0, :], label = 'IFI magnitude @137Hz [mV]')
+plt.plot(offsetAxis, FFTpeaks[1, :], label = 'IFQ magnitude @137Hz [mV]')
 plt.xlabel('Target position [mm]')
 plt.legend()
 plt.grid(True)

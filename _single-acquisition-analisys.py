@@ -16,6 +16,7 @@ voltageAxis_mV = rawSamples[:,0]
 timeAxis_s = rawSamples[:,1]
 totalSamples = timeAxis_s.size
 
+# Time domain plot
 plt.plot(timeAxis_s, voltageAxis_mV)
 plt.ylabel('Voltage (mV)')
 plt.xlabel('Time (s)')
@@ -24,6 +25,7 @@ plt.show()
 
 FFT_FREQ_BINS = 2**20 
 SAMPLING_FREQUENCY = 100e3 # Check radar script
+print('FFT resolution: ' + str(SAMPLING_FREQUENCY/FFT_FREQ_BINS) + ' Hz')
 
 # FFT computation
 FFT = np.fft.rfft(voltageAxis_mV, n = FFT_FREQ_BINS) # FFT of real signal
@@ -31,7 +33,6 @@ FFT_mV = np.abs(2/(totalSamples)*FFT) # FFT magnitude
 FFT_dBV = 20*np.log10(FFT_mV/1000)
 freqAxis = np.fft.rfftfreq(FFT_FREQ_BINS) # freqBins/2+1
 freqAxis_Hz = freqAxis * SAMPLING_FREQUENCY
-print('FFT resolution: ' + str(SAMPLING_FREQUENCY/FFT_FREQ_BINS) + ' Hz')
 # Plot FFT
 plt.plot(freqAxis_Hz, FFT_dBV)
 plt.ylabel('Spectrum magnitude (dBV)')
