@@ -3,8 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 filenames = []
-offsetPositions = 0
-offsetStep = 1 # mm
+offsetPositions = 21
+offsetStep = 0.5 # mm
 currentCycle = 0
 
 print('List of *.csv files in the current directory: ')
@@ -23,26 +23,26 @@ with os.scandir(path='.') as directoryScan:
                 
 offsetAxis = np.linspace(start = 0, stop = (offsetPositions-1) * offsetStep, num = offsetPositions)
 
-TXf_FREQ = 24e9 # Hz
-wavelength = 3e8 / 24e9
+TX_FREQ = 24e9 # Hz
+wavelength = 3e8 / TX_freq
 print('Wavelength: ' + str(wavelength * 1e3) + ' mm')
             
 print('Number of different cone positions: ' + str(offsetPositions))
 
-SAMPLING_FREQUENCY = 10e3 # Hz
+SAMPLING_FREQUENCY = 100e3 # Hz
 print('Sampling frequency: ' + str(SAMPLING_FREQUENCY) + ' Hz')
 ACQUISITION_TIME = 2 # s
 print('Acquisition time: ' + str(ACQUISITION_TIME) + ' s')
 samplingInterval = 1/SAMPLING_FREQUENCY
 totalSamples = round(ACQUISITION_TIME/samplingInterval)
-FFT_FREQ_BINS = 2**19
+FFT_FREQ_BINS = 2**20
 print('FFT resolution: ' + str(SAMPLING_FREQUENCY/FFT_FREQ_BINS) + ' Hz')
 
 FFTpeaks = np.ndarray((2, offsetPositions)) # First row for ChA (IFI), second row for ChB (IFQ)
 
 currentCycle = 0
 
-CONE_FREQUENCY = 100 # Hz
+CONE_FREQUENCY = 137 # Hz
 ARGMAX_RANGE = 100 # bins
 
 for entry in filenames:
@@ -77,8 +77,8 @@ for entry in filenames:
         currentCycle += 1
 
 # IFI and IFQ plots
-plt.plot(offsetAxis, FFTpeaks[0, :], label = 'IFI magnitude @100Hz [dBV]')
-plt.plot(offsetAxis, FFTpeaks[1, :], label = 'IFQ magnitude @100Hz [dBV]')
+plt.plot(offsetAxis, FFTpeaks[0, :], label = 'IFI magnitude @137Hz [dBV]')
+plt.plot(offsetAxis, FFTpeaks[1, :], label = 'IFQ magnitude @137Hz [dBV]')
 plt.xlabel('Target position [mm]')
 plt.legend()
 plt.grid(True)
